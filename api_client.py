@@ -38,7 +38,9 @@ VUL_FUND_CODES = {
 }
 
 def call_api(fund_code, start_date, end_date):
-    url = "https://www.sunlife.com.ph/funds/navprice/vul?version=1&language=en-us"
+    vul_url = "https://www.sunlife.com.ph/funds/navprice/vul?version=1&language=en-us"
+
+    url = vul_url
 
     payload = {
         "fundCode": f"{fund_code}",
@@ -51,8 +53,9 @@ def call_api(fund_code, start_date, end_date):
 
 
 def write_to_csv(rows, file_name):
-    field_names = [
+    vul_field_names = [
         "fundCode",
+        "fundName",
         "fundDate",
         "fundVal",
         "readFlag",
@@ -64,8 +67,9 @@ def write_to_csv(rows, file_name):
         "weekly",
         "risk",
         "status",
-        "fundName",
     ]
+
+    field_names = vul_field_names
 
     with open(file_name, "w", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=field_names)
