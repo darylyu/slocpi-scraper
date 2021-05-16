@@ -60,8 +60,12 @@ MF_FUND_CODES = {
 
 def call_api(fund_code, start_date, end_date):
     vul_url = "https://www.sunlife.com.ph/funds/navprice/vul?version=1&language=en-us"
+    mf_url = "https://www.sunlife.com.ph/funds/navprice/mf?version=1&language=en-us"
 
-    url = vul_url
+    if fund_code in VUL_FUND_CODES.keys():
+        url = vul_url
+    elif fund_code in MF_FUND_CODES.keys():
+        url = mf_url
 
     payload = {
         "fundCode": f"{fund_code}",
@@ -73,7 +77,7 @@ def call_api(fund_code, start_date, end_date):
     return response.json()
 
 
-def write_to_csv(rows, file_name):
+def write_to_csv(rows, file_name, fund_code):
     vul_field_names = [
         "fundCode",
         "fundName",
@@ -90,7 +94,23 @@ def write_to_csv(rows, file_name):
         "status",
     ]
 
-    field_names = vul_field_names
+    mf_field_names = [
+        "fundCode",
+        "fundName",
+        "fundValDate",
+        "fundNetVal",
+        "fundYoyVal",
+        "fundYtdVal",
+        "fundDesc",
+        "fundCurrency",
+        "weekly",
+        "fundUrl",
+    ]
+
+    if fund_code in VUL_FUND_CODES.keys():
+        field_names = vul_field_names
+    elif fund_code in MF_FUND_CODES.keys():
+        field_names = mf_field_names
 
     with open(file_name, "w", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=field_names)
@@ -109,7 +129,7 @@ def main():
 
     file_name = f"{fund_code}.{start_date}.{end_date}.csv"
 
-    write_to_csv(rows, file_name)
+    write_to_csv(rows, file_name, fund_code)
 
 
 if __name__ == "__main__":
