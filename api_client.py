@@ -5,7 +5,6 @@ import requests
 import sys
 
 
-
 # VULs - https://www.sunlife.com.ph/en/insurance/vul-fund-prices/
 VUL_FUND_CODES = {
     "SLPBA": "Sun Life Phils - Peso Balanced Fund",
@@ -72,8 +71,10 @@ def call_api(fund_code, start_date, end_date):
         "dateFrom": f"{start_date}T16:00:00.000Z",
         "dateTo": f"{end_date}T16:00:00.000Z",
     }
+    print(f"Fetching {fund_code} data...")
     response = requests.post(url, json=payload)
     assert response.status_code == 200
+    print("Done!")
     return response.json()
 
 
@@ -112,12 +113,28 @@ def write_to_csv(rows, file_name, fund_code):
     elif fund_code in MF_FUND_CODES.keys():
         field_names = mf_field_names
 
+    print(f"Writing {file_name}...")
     with open(file_name, "w", newline="") as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=field_names)
         writer.writeheader()
 
         for row in rows:
             writer.writerow(row)
+    print("Done!")
+
+
+def scrape_all_vul(start_date, end_date):
+    for fund_code in sorted(VUL_FUND_CODES.keys()):
+        rows = call_api(fund_code, start_date, end_date)
+        file_name = f"{fund_code}.{start_date}.{end_date}.csv"
+        write_to_csv(rows, file_name, fund_code)
+
+
+def scrape_all_mf(start_date, end_date):
+    for fund_code in sorted(MF_FUND_CODES.keys()):
+        rows = call_api(fund_code, start_date, end_date)
+        file_name = f"{fund_code}.{start_date}.{end_date}.csv"
+        write_to_csv(rows, file_name, fund_code)
 
 
 def main():
@@ -125,11 +142,17 @@ def main():
     start_date = sys.argv[2]  # 2021-05-01
     end_date = sys.argv[3]  # 2021-05-16
 
-    rows = call_api(fund_code, start_date, end_date)
-
-    file_name = f"{fund_code}.{start_date}.{end_date}.csv"
-
-    write_to_csv(rows, file_name, fund_code)
+    if fund_code == "VUL":
+        scrape_all_vul(start_date, end_date)
+    elif fund_code == "MF":
+        scrape_all_mf(start_date, end_date)
+    elif fund_code == "ALL":
+        scrape_all_vul(start_date, end_date)
+        scrape_all_mf(start_date, end_date)
+    else:
+        rows = call_api(fund_code, start_date, end_date)
+        file_name = f"{fund_code}.{start_date}.{end_date}.csv"
+        write_to_csv(rows, file_name, fund_code)
 
 
 if __name__ == "__main__":
