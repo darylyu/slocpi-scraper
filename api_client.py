@@ -37,6 +37,27 @@ VUL_FUND_CODES = {
     "SLUMM": "Sun Life Phils - Dollar Money Market Fund",
 }
 
+# NAVPS/NAVPU - https://www.sunlife.com.ph/en/investments/navps-navpu/
+MF_FUND_CODES = {
+    "CF0001": "Sun Life Prosperity Bond Fund",
+    "CF0002": "Sun Life Prosperity Balanced Fund",
+    "CF0003": "Sun Life Prosperity Philippine Equity Fund",
+    "CF0004": "Sun Life Prosperity Dollar Advantage Fund",
+    "CF0005": "Sun Life Prosperity Money Market Fund",
+    "CF0006": "Sun Life Prosperity Dollar Abundance Fund",
+    "CF0007": "Sun Life Prosperity Government Securities (GS) Fund",
+    "CF0008": "Sun Life Prosperity Dynamic Fund",
+    "CF0009": "Sun Life Prosperity Philippine Stock Index Fund",
+    "CF0010": "Sun Life Prosperity Dollar Wellspring Fund",
+    "CF0011": "Sun Life Prosperity World Voyager Fund",
+    "CF0012": "Sun Life Prosperity Dollar Starter Fund",
+    "CF0013": "Sun Life Prosperity Achiever Fund 2028",
+    "CF0014": "Sun Life Prosperity Achiever Fund 2038",
+    "CF0015": "Sun Life Prosperity Achiever Fund 2048",
+    "CF0016": "Sun Life Prosperity World Equity Index Feeder Fund",
+}
+
+
 def call_api(fund_code, start_date, end_date):
     vul_url = "https://www.sunlife.com.ph/funds/navprice/vul?version=1&language=en-us"
 
