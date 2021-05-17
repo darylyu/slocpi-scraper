@@ -57,6 +57,19 @@ MF_FUND_CODES = {
 }
 
 
+def generate_file_name(rows, fund_code):
+    if fund_code in VUL_FUND_CODES.keys():
+        fund_name = VUL_FUND_CODES[fund_code]
+        start_date = rows[-1]["fundDate"]
+        end_date = rows[0]["fundDate"]
+    elif fund_code in MF_FUND_CODES.keys():
+        fund_name = MF_FUND_CODES[fund_code]
+        start_date = rows[-1]["fundValDate"]
+        end_date = rows[1]["fundValDate"]
+
+    return f"{fund_name}.{start_date}.{end_date}.csv"
+
+
 def call_api(fund_code, start_date, end_date):
     vul_url = "https://www.sunlife.com.ph/funds/navprice/vul?version=1&language=en-us"
     mf_url = "https://www.sunlife.com.ph/funds/navprice/mf?version=1&language=en-us"
@@ -126,14 +139,14 @@ def write_to_csv(rows, file_name, fund_code):
 def scrape_all_vul(start_date, end_date):
     for fund_code in sorted(VUL_FUND_CODES.keys()):
         rows = call_api(fund_code, start_date, end_date)
-        file_name = f"{fund_code}.{start_date}.{end_date}.csv"
+        file_name = generate_file_name(rows, fund_code)
         write_to_csv(rows, file_name, fund_code)
 
 
 def scrape_all_mf(start_date, end_date):
     for fund_code in sorted(MF_FUND_CODES.keys()):
         rows = call_api(fund_code, start_date, end_date)
-        file_name = f"{fund_code}.{start_date}.{end_date}.csv"
+        file_name = generate_file_name(rows, fund_code)
         write_to_csv(rows, file_name, fund_code)
 
 
@@ -151,7 +164,7 @@ def main():
         scrape_all_mf(start_date, end_date)
     else:
         rows = call_api(fund_code, start_date, end_date)
-        file_name = f"{fund_code}.{start_date}.{end_date}.csv"
+        file_name = generate_file_name(rows, fund_code)
         write_to_csv(rows, file_name, fund_code)
 
 
