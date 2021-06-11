@@ -1,5 +1,5 @@
 # slocpi-scraper
- Sunlife of Canada Philippines Inc Investment Funds Scraper 
+ Sun Life of Canada Philippines Inc Investment Funds Scraper 
 
 # Install dependencies
 pip install -r requirements.txt
