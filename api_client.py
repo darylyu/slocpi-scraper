@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
+import argparse
 import csv
+import datetime
 import requests
-import sys
 
 
 # VULs - https://www.sunlife.com.ph/en/insurance/vul-fund-prices/
@@ -150,10 +151,36 @@ def scrape_all_mf(start_date, end_date):
         write_to_csv(rows, file_name, fund_code)
 
 
+def validate_date_input(start_date, end_date):
+    today = datetime.datetime.now().date()
+    date_fmt = "%Y-%m-%d"
+    try:
+        date_start = datetime.datetime.strptime(start_date, date_fmt).date()
+    except ValueError as e:
+        raise ValueError(f"Start date is invalid.\n{e}")
+    assert date_start <= today, "Start date is invalid. Choose a date as today or earlier."
+    try:
+        date_end = datetime.datetime.strptime(end_date, date_fmt).date()
+    except ValueError as e:
+        raise ValueError(f"End date is invalid.\n{e}")
+    assert date_end <= today, "End date is invalid. Choose a date as today or earlier."
+    assert date_start <= date_end, "Invalid date range."
+
+
 def main():
-    fund_code = sys.argv[1]  # SLPGF
-    start_date = sys.argv[2]  # 2021-05-01
-    end_date = sys.argv[3]  # 2021-05-16
+    today = datetime.datetime.now().date().strftime('%Y-%m-%d')
+    parser = argparse.ArgumentParser(description="Sun Life of Canada Philippines Inc Investment Funds Scraper")
+    parser.add_argument("fund_code", help="Fund code.",
+                        choices=["VUL", "MF", "ALL"] + sorted(VUL_FUND_CODES.keys()) + sorted(MF_FUND_CODES.keys()))
+    parser.add_argument("start_date", help="Start date. e.g. (2021-05-01)")
+    parser.add_argument("--end_date", help="End date. e.g. (2021-05-16) default: today", default=today)
+
+    args = parser.parse_args()
+    fund_code = args.fund_code
+    start_date = args.start_date
+    end_date = args.end_date
+
+    validate_date_input(start_date, end_date)
 
     if fund_code == "VUL":
         scrape_all_vul(start_date, end_date)
