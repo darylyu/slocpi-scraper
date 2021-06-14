@@ -2,15 +2,23 @@
  Sun Life of Canada Philippines Inc Investment Funds Scraper 
 
 # Install dependencies
+```
 pip install -r requirements.txt
+```
 
 ## Usage
 
 
 General format:
 ```
-./api_client.py <fund_code> <start_date> <end_date>
+./api_client.py <fund_code> <start_date> (end_date)
 ```
+
+The fund codes are listed in the next section.
+
+The dates should use the `YYYY-MM-DD` format.
+
+End dates are optional and default to _today_ if not explicitly specified.
 
 
 To get historical data for their Peso Balanced Fund from Jan 1, 2021 to Feb 14, 2021:
