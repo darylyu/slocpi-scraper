@@ -2,7 +2,7 @@
 
 import argparse
 import csv
-import datetime
+import datetime as dt
 import requests
 
 
@@ -152,17 +152,17 @@ def scrape_all_mf(start_date, end_date):
 
 
 def validate_date_input(start_date, end_date):
-    today = datetime.datetime.now().date()
+    today = dt.datetime.now().date()
     date_fmt = "%Y-%m-%d"
     try:
-        date_start = datetime.datetime.strptime(start_date, date_fmt).date()
+        date_start = dt.datetime.strptime(start_date, date_fmt).date()
     except ValueError as e:
         raise ValueError(f"Start date is invalid.\n{e}")
     assert (
         date_start <= today
     ), "Start date is invalid. Choose a date as today or earlier."
     try:
-        date_end = datetime.datetime.strptime(end_date, date_fmt).date()
+        date_end = dt.datetime.strptime(end_date, date_fmt).date()
     except ValueError as e:
         raise ValueError(f"End date is invalid.\n{e}")
     assert date_end <= today, "End date is invalid. Choose a date as today or earlier."
@@ -170,7 +170,7 @@ def validate_date_input(start_date, end_date):
 
 
 def main():
-    today = datetime.datetime.now().date().strftime("%Y-%m-%d")
+    today = dt.datetime.now().date().strftime("%Y-%m-%d")
     parser = argparse.ArgumentParser(
         description="Sun Life of Canada Philippines Inc Investment Funds Scraper"
     )
