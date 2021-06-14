@@ -158,7 +158,9 @@ def validate_date_input(start_date, end_date):
         date_start = datetime.datetime.strptime(start_date, date_fmt).date()
     except ValueError as e:
         raise ValueError(f"Start date is invalid.\n{e}")
-    assert date_start <= today, "Start date is invalid. Choose a date as today or earlier."
+    assert (
+        date_start <= today
+    ), "Start date is invalid. Choose a date as today or earlier."
     try:
         date_end = datetime.datetime.strptime(end_date, date_fmt).date()
     except ValueError as e:
@@ -168,12 +170,21 @@ def validate_date_input(start_date, end_date):
 
 
 def main():
-    today = datetime.datetime.now().date().strftime('%Y-%m-%d')
-    parser = argparse.ArgumentParser(description="Sun Life of Canada Philippines Inc Investment Funds Scraper")
-    parser.add_argument("fund_code", help="Fund code.",
-                        choices=["VUL", "MF", "ALL"] + sorted(VUL_FUND_CODES.keys()) + sorted(MF_FUND_CODES.keys()))
+    today = datetime.datetime.now().date().strftime("%Y-%m-%d")
+    parser = argparse.ArgumentParser(
+        description="Sun Life of Canada Philippines Inc Investment Funds Scraper"
+    )
+    parser.add_argument(
+        "fund_code",
+        help="Fund code.",
+        choices=["VUL", "MF", "ALL"]
+        + sorted(VUL_FUND_CODES.keys())
+        + sorted(MF_FUND_CODES.keys()),
+    )
     parser.add_argument("start_date", help="Start date. e.g. (2021-05-01)")
-    parser.add_argument("--end_date", help="End date. e.g. (2021-05-16) default: today", default=today)
+    parser.add_argument(
+        "--end_date", help="End date. e.g. (2021-05-16) default: today", default=today
+    )
 
     args = parser.parse_args()
     fund_code = args.fund_code
