@@ -152,7 +152,7 @@ def scrape_all_mf(start_date, end_date):
 
 
 def validate_date_input(start_date, end_date):
-    today = dt.datetime.now().date()
+    today = dt.datetime.today()
     date_fmt = "%Y-%m-%d"
     try:
         date_start = dt.datetime.strptime(start_date, date_fmt).date()
@@ -170,7 +170,7 @@ def validate_date_input(start_date, end_date):
 
 
 def main():
-    today = dt.datetime.now().date().strftime("%Y-%m-%d")
+    today = dt.datetime.today().strftime("%Y-%m-%d")
     parser = argparse.ArgumentParser(
         description="Sun Life of Canada Philippines Inc Investment Funds Scraper"
     )
