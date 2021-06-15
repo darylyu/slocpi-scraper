@@ -94,8 +94,6 @@ def call_api(fund_code, start_date, end_date):
 
 def write_to_csv(rows, file_name, fund_code):
     vul_field_names = [
-        "fundCode",
-        "fundName",
         "fundDate",
         "fundVal",
         "readFlag",
@@ -107,11 +105,11 @@ def write_to_csv(rows, file_name, fund_code):
         "weekly",
         "risk",
         "status",
+        "fundCode",
+        "fundName",
     ]
 
     mf_field_names = [
-        "fundCode",
-        "fundName",
         "fundValDate",
         "fundNetVal",
         "fundYoyVal",
@@ -119,6 +117,8 @@ def write_to_csv(rows, file_name, fund_code):
         "fundDesc",
         "fundCurrency",
         "weekly",
+        "fundCode",
+        "fundName",
         "fundUrl",
     ]
 
