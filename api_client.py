@@ -152,7 +152,7 @@ def scrape_all_mf(start_date, end_date):
 
 
 def validate_date_input(start_date, end_date):
-    today = dt.datetime.today()
+    today = dt.datetime.today().date()
     date_fmt = "%Y-%m-%d"
     try:
         date_start = dt.datetime.strptime(start_date, date_fmt).date()
