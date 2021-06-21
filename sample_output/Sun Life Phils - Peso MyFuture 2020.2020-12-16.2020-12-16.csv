@@ -1,2 +1,2 @@
-fundCode,fundName,fundDate,fundVal,readFlag,ingeniumDate,fundYoyVal,fundYtdVal,fundDesc,fundCurrency,weekly,risk,status
-TDF20,Sun Life Phils - Peso MyFuture 2020,2020-12-16,2.7418,true,2020-12-15,0.0,0.0,MyFuture 2020,PHP,N,5,I
+fundDate,fundVal,readFlag,ingeniumDate,fundYoyVal,fundYtdVal,fundDesc,fundCurrency,weekly,risk,status,fundCode,fundName
+2020-12-16,2.7418,true,2020-12-15,0.0,0.0,MyFuture 2020,PHP,N,5,I,TDF20,Sun Life Phils - Peso MyFuture 2020
